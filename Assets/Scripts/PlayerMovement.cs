@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     public Vector2 mousePosition;
     public Vector3 lookTarget;
     private CharacterController characterController;
+    public GameObject bulletPrefab;
+    public Transform firePoint;
 
     private void Awake()
     {
@@ -63,6 +65,13 @@ public class PlayerController : MonoBehaviour
         {
             lookTarget = ray.GetPoint(enter);
 
+        }
+    }
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         }
     }
 
