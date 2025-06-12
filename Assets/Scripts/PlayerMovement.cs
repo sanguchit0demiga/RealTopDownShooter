@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
-    
+
 
     public Transform targetObject;
 
@@ -21,9 +21,21 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firePoint;
 
+    public int health;
+    public HealthBar healthbar;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
+    }
+    void Start()
+    {
+        if (healthbar != null)
+        {
+            healthbar.maxHealth = health;
+            healthbar.currentHealth = health;
+            healthbar.UpdateBar();
+        }
     }
 
     void Update()
@@ -74,5 +86,33 @@ public class PlayerController : MonoBehaviour
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         }
     }
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
 
+        if (healthbar != null)
+        {
+            healthbar.currentHealth = health;
+            healthbar.UpdateBar();
+        }
+
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            TakeDamage(25);
+          
+        }
+    }
 }
