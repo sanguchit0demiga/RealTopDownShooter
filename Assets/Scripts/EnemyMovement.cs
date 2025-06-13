@@ -27,7 +27,8 @@ public class EnemyMovementController : MonoBehaviour
     public void FindPlayer()
     {
 
-        navMeshAgent.SetDestination(playerTransform.position); 
+        navMeshAgent.SetDestination(playerTransform.position);
+        transform.LookAt(new Vector3(playerTransform.position.x, transform.position.y, playerTransform.position.z));
 
     }
 

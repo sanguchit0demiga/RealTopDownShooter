@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 100;
-    private int currentHealth;
+    public float maxHealth = 100;
+    private float currentHealth;
 
     public HealthBar healthBar;
-    public PowerUps powerUpDrops; 
+    public PowerUps powerUpDrops;
+    public GameObject bloodSplashPrefab;
     void Start()
     {
         currentHealth = maxHealth;
@@ -18,7 +19,7 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
 
@@ -36,6 +37,10 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+        if (bloodSplashPrefab != null)
+        {
+            Instantiate(bloodSplashPrefab, transform.position, Quaternion.identity);
+        }
         Destroy(gameObject);
         DropPowerUp();
     }

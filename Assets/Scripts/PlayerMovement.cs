@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,8 +22,13 @@ public class PlayerController : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firePoint;
 
-    public int health;
+    public float health;
     public HealthBar healthbar;
+
+    private bool isPoweredUp = false;
+    public float powerUpDuration = 5f;
+    public float poweredDamage = 100f;
+    public float normalDamage = 25f;
 
     private void Awake()
     {
@@ -83,10 +89,20 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            GameObject newBullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Bullet bulletScript = newBullet.GetComponent<Bullet>();
+            if (bulletScript != null)
+            {
+                if (isPoweredUp)
+                    bulletScript.damage = poweredDamage;
+                else
+                    bulletScript.damage = normalDamage;
+            }
         }
     }
-    public void TakeDamage(int damage)
+
+    
+    public void TakeDamage(float damage)
     {
         health -= damage;
 
@@ -105,6 +121,7 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
+        
         Destroy(gameObject);
     }
     void OnTriggerEnter(Collider other)
@@ -114,5 +131,35 @@ public class PlayerController : MonoBehaviour
             TakeDamage(25);
           
         }
+        else if (other.CompareTag("Heart"))
+        {
+            Heal(30);
+            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("Potion"))
+        {
+            Destroy(other.gameObject);
+            StartCoroutine(PowerUpRoutine());
+        }
+    }
+    public void Heal(int amount)
+    {
+        health += amount;
+        if (health > healthbar.maxHealth)
+            health = healthbar.maxHealth;
+
+        if (healthbar != null)
+        {
+            healthbar.currentHealth = health;
+            healthbar.UpdateBar();
+        }
+    }
+    IEnumerator PowerUpRoutine()
+    {
+        isPoweredUp = true;
+        Debug.Log("activadp");
+        yield return new WaitForSeconds(powerUpDuration);
+        isPoweredUp = false;
+        Debug.Log("terminado");
     }
 }
