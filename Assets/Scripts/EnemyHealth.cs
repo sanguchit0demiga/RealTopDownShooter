@@ -41,6 +41,10 @@ public class EnemyHealth : MonoBehaviour
         {
             Instantiate(bloodSplashPrefab, transform.position, Quaternion.identity);
         }
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.EnemyKilled();
+        }
         Destroy(gameObject);
         DropPowerUp();
     }

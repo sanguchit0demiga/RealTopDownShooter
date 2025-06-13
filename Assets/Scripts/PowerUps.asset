@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   posiblesDrops:
   - objeto: {fileID: 6733093177987365965, guid: d625ea99170789b4fa1fdb087d34fbf0, type: 3}
-    probabilidad: 0.4
+    probabilidad: 0.2
   - objeto: {fileID: 5221835421041412513, guid: 1579004e91666b244b13485719ad0a76, type: 3}
     probabilidad: 0.2

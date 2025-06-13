@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +10,11 @@ public class GameManager : MonoBehaviour
 
 
     public bool gameStarted = false;
+    public TMP_Text enemiesRemainingText;
+
+    private int enemiesKilled = 0;
+    private int maxEnemiesToKill = 10;
+
 
     void Awake()
     {
@@ -20,8 +27,9 @@ public class GameManager : MonoBehaviour
     }
         void Start()
     {
-        Time.timeScale = 0f; 
-        
+        Time.timeScale = 0f;
+        UpdateEnemiesRemainingText();
+
     }
 
     void Update()
@@ -38,5 +46,28 @@ public class GameManager : MonoBehaviour
         
         Time.timeScale = 1f;
         gameStarted = true;
+    }
+    public void EnemyKilled()
+    {
+        enemiesKilled++;
+        UpdateEnemiesRemainingText();
+
+        if (enemiesKilled >= maxEnemiesToKill)
+        {
+            WinGame();
+        }
+    }
+    void UpdateEnemiesRemainingText()
+    {
+        int remaining = maxEnemiesToKill - enemiesKilled;
+        enemiesRemainingText.text = "ENEMIES REMAINING: " + remaining;
+        Debug.Log("Texto actualizado: " + enemiesRemainingText.text);
+    }
+
+    void WinGame()
+    {
+       
+        
+        SceneManager.LoadScene("Win"); 
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
@@ -125,6 +126,7 @@ public class PlayerController : MonoBehaviour
     {
         
         Destroy(gameObject);
+        SceneManager.LoadScene("Lose");
     }
     void OnTriggerEnter(Collider other)
     {
