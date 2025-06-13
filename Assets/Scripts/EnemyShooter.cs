@@ -13,7 +13,7 @@ public class EnemyShooter : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firePoint;
     public float bulletSpeed = 10f;
-
+    public ParticleSystem muzzleFlash;
     void Awake()
     {
         playerTransform = GameObject.FindWithTag("Player")?.transform;
@@ -58,5 +58,7 @@ public class EnemyShooter : MonoBehaviour
             rb.linearVelocity = direction * bulletSpeed;
         }
         Destroy(bullet, 5f);
+        if (muzzleFlash != null)
+            muzzleFlash.Play();
     }
 }

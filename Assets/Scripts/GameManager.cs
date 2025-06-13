@@ -1,14 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PressAnyKeyToStart : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public GameObject startPanel; 
-    
+    public GameObject startPanel;
+    public static GameManager Instance { get; private set; }
 
-    private bool gameStarted = false;
 
-    void Start()
+    public bool gameStarted = false;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+    }
+        void Start()
     {
         Time.timeScale = 0f; 
         
