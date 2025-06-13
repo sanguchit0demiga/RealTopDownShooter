@@ -6,7 +6,7 @@ public class EnemyHealth : MonoBehaviour
     private int currentHealth;
 
     public HealthBar healthBar;
-
+    public PowerUps powerUpDrops; 
     void Start()
     {
         currentHealth = maxHealth;
@@ -36,7 +36,26 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject); 
+        Destroy(gameObject);
+        DropPowerUp();
+    }
+    void DropPowerUp()
+    {
+        if (powerUpDrops == null || powerUpDrops.posiblesDrops == null || powerUpDrops.posiblesDrops.Length == 0)
+            return;
+
+        float roll = Random.value; 
+        float acumulado = 0f;
+
+        foreach (var drop in powerUpDrops.posiblesDrops)
+        {
+            acumulado += drop.probabilidad;
+            if (roll <= acumulado)
+            {
+                Instantiate(drop.objeto, transform.position, Quaternion.identity);
+                break;
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
