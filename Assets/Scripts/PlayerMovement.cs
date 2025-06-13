@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public float powerUpDuration = 5f;
     public float poweredDamage = 100f;
     public float normalDamage = 25f;
-
+    public ParticleSystem muzzleFlash;
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
                 else
                     bulletScript.damage = normalDamage;
             }
+            if (muzzleFlash != null)
+                muzzleFlash.Play();
         }
     }
 
